@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Documents | DocQuery AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/my_documents.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="documents-page">
+
+    <header class="documents-header">
+        <div>
+            <p class="documents-eyebrow">YOUR WORKSPACE</p>
+            <h1>My Documents</h1>
+            <p class="documents-description">
+                Manage your uploaded documents and track their processing status.
+            </p>
+        </div>
+
+        <a class="upload-link" href="{% url 'upload_document' %}">
+            <span>＋</span> Upload Document
+        </a>
+    </header>
+
+    <section class="documents-section">
+
+        <div class="documents-section-heading">
+            <div>
+                <h2>All Documents</h2>
+                <p>Your uploaded files and their current status.</p>
+            </div>
+
+            <span class="document-count">
+                {{ documents|length }} documents
+            </span>
+        </div>
+
+        {% if documents %}
+            <div class="document-card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DOCUMENT</th>
+                                <th>UPLOADED ON</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for document in documents %}
+                                <tr>
+                                    <td>
+                                        <div class="document-title-cell">
+                                            <div class="document-icon">PDF</div>
+                                            <div class="document-title">
+                                                <h3>{{ document.title }}</h3>
+                                                <p>Uploaded document</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="document-date">
+                                        {{ document.uploaded_at|date:"d M Y, h:i A" }}
+                                    </td>
+
+                                    <td>
+                                        <span class="status {{ document.status|lower }}">
+                                            <span class="status-dot"></span>
+                                            {{ document.get_status_display }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-document-icon">PDF</div>
+                <h2>No documents yet</h2>
+                <p>
+                    Your workspace is waiting for its first document.
+                    Upload a file to get started.
+                </p>
+                <a class="upload-link" href="{% url 'upload_document' %}">
+                    ＋ Upload your first document
+                </a>
+            </div>
+        {% endif %}
+
+    </section>
+
+</main>
+{% endblock %}

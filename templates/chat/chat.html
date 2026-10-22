@@ -1,0 +1,132 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% load chat_filters %}
+
+{% block title %}Chat | DocQuery AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="chat-layout">
+
+    
+    <!-- Main chat area -->
+    <section class="chat-panel">
+
+
+        <!-- Messages and sources share one scrollable area -->
+        <div class="messages-container" id="messages-container">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <article class="message {% if message.role == 'user' %}user-message{% else %}assistant-message{% endif %}">
+
+                        <p class="message-sender">
+                            {% if message.role == "user" %}
+                                You
+                            {% else %}
+                                DocQuery AI
+                            {% endif %}
+                        </p>
+
+                        <div class="message-content">
+                            {{ message.content|render_markdown }}
+                        </div>
+
+                        {% if message.role == "assistant" and message.sources %}
+                            <section class="sources-section">
+                                <h3>Sources ({{ message.sources|length }})</h3>
+
+                                {% for source in message.sources %}
+                                    <article class="source-card">
+
+                                        {% if source.url %}
+                                            <p class="source-page">
+                                                <a href="{{ source.url }}"
+                                                   target="_blank"
+                                                   rel="noopener noreferrer">
+                                                    {{ source.title|default:"Web source" }}
+                                                </a>
+                                            </p>
+
+                                            {% if source.text %}
+                                                <details class="source-details">
+                                                    <summary>View source excerpt</summary>
+                                                    <p>{{ source.text }}</p>
+                                                </details>
+                                            {% endif %}
+
+                                        {% elif source.page %}
+                                            <p class="source-page">
+                                                PDF — Page {{ source.page }}
+                                            </p>
+
+                                            {% if source.text %}
+                                                <details class="source-details">
+                                                    <summary>View PDF excerpt</summary>
+                                                    <p>{{ source.text }}</p>
+                                                </details>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </article>
+                                {% endfor %}
+                            </section>
+                        {% endif %}
+
+                    </article>
+                {% endfor %}
+            {% else %}
+                <div class="welcome-message">
+                    <h3>Welcome to DocQuery AI!</h3>
+                    <p>
+                        Ask a question about your processed documents to get started.
+                    </p>
+                </div>
+            {% endif %}
+
+            <!-- JavaScript scrolls to this point -->
+            <div id="latest-message"></div>
+
+        </div>
+
+        {% if error %}
+            <p class="empty-state">{{ error }}</p>
+        {% endif %}
+
+        <!-- Question input -->
+        <form method="POST" class="question-form">
+            {% csrf_token %}
+
+            {% if chat_session %}
+                <input type="hidden"
+                       name="session_id"
+                       value="{{ chat_session.id }}">
+            {% endif %}
+
+            <input
+                type="text"
+                name="question"
+                class="question-input"
+                placeholder="Ask something about your documents..."
+                maxlength="2000"
+                required
+            >
+
+            <button type="submit" class="send-button">Ask</button>
+        </form>
+
+        <p class="chat-note">
+            Answers may use your processed documents or web search.
+        </p>
+
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/chat.js' %}"></script>
+{% endblock %}

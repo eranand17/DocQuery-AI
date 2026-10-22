@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Upload Document | DocQuery AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="page-container">
+
+    <section class="upload-card">
+
+        <header class="upload-header">
+            <div class="icon-box">PDF</div>
+            <p class="upload-eyebrow">DOCUMENT WORKSPACE</p>
+            <h1>Upload a Document</h1>
+            <p class="description">
+                Add a document to your workspace and use AI to explore its content.
+            </p>
+        </header>
+
+        {% if messages %}
+            <div class="upload-messages" aria-live="polite">
+                {% for message in messages %}
+                    <div class="message success">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">
+                    Document Title
+                </label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="field-errors">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.file.id_for_label }}">
+                    Select Document
+                </label>
+
+                <div class="file-upload-area">
+                    <div class="file-upload-icon">↑</div>
+                    <p class="file-upload-title">Choose a PDF file</p>
+                    <p class="file-upload-description">
+                        Select a document from your computer
+                    </p>
+                    {{ form.file }}
+                    <small>PDF only · Maximum size: 10 MB</small>
+                </div>
+
+                {% if form.file.errors %}
+                    <div class="field-errors">{{ form.file.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="upload-button">
+                Upload Document <span>→</span>
+            </button>
+        </form>
+
+        <aside class="notice">
+            <div class="notice-icon">i</div>
+            <div>
+                <strong>Admin approval required</strong>
+                <p>
+                    Your document will remain pending until an administrator
+                    reviews it. Only approved and processed documents are
+                    available for document-based questions.
+                </p>
+            </div>
+        </aside>
+
+        <a href="{% url 'my_documents' %}" class="back-link">
+            ← Back to My Documents
+        </a>
+
+    </section>
+
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/upload.js' %}"></script>
+{% endblock %}

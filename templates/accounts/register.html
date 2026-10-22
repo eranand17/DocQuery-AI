@@ -1,0 +1,124 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your DocQuery AI account to upload documents and explore their content with AI.">
+    <title>Create Account | DocQuery AI</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">D</span>
+            <span>DocQuery <strong>AI</strong></span>
+        </a>
+
+        <nav class="nav-links">
+            <span class="nav-text">Already registered?</span>
+            <a href="{% url 'login' %}" class="login-link">Sign In</a>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        <section class="register-card">
+
+            <div class="icon-box">✦</div>
+
+            <p class="eyebrow">GET STARTED</p>
+            <h1>Create your account</h1>
+
+            <p class="description">
+                Join DocQuery AI to upload documents, ask questions
+                and discover useful answers.
+            </p>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="errors">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+
+                    {% if form.username.help_text %}
+                        <small class="help-text">{{ form.username.help_text|safe }}</small>
+                    {% endif %}
+
+                    {% if form.username.errors %}
+                        <div class="field-errors">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    {{ form.password1 }}
+
+                    {% if form.password1.help_text %}
+                        <small class="help-text">{{ form.password1.help_text|safe }}</small>
+                    {% endif %}
+
+                    {% if form.password1.errors %}
+                        <div class="field-errors">{{ form.password1.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    {{ form.password2 }}
+
+                    {% if form.password2.help_text %}
+                        <small class="help-text">{{ form.password2.help_text|safe }}</small>
+                    {% endif %}
+
+                    {% if form.password2.errors %}
+                        <div class="field-errors">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="register-button">
+                    Create Account <span>→</span>
+                </button>
+            </form>
+
+            <div class="security-note">
+                <span>✓</span>
+                Your password is handled by Django authentication.
+            </div>
+
+            <div class="card-divider"></div>
+
+            <p class="login-text">
+                Already have an account?
+                <a href="{% url 'login' %}">Sign in</a>
+            </p>
+
+        </section>
+
+        <p class="page-footer">
+            Intelligent answers. Better document discovery.
+        </p>
+    </main>
+
+</body>
+</html>

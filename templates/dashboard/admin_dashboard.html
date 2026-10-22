@@ -1,0 +1,143 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | DocQuery AI</title>
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+</head>
+<body>
+    <main class="container">
+
+        <header class="page-header">
+            <div class="brand">
+                <div class="brand-icon">D</div>
+                <div>
+                    <h1>DocQuery <span>AI</span></h1>
+                    <p>Admin Dashboard / Document Management</p>
+                </div>
+            </div>
+
+            <a class="admin-link" href="{% url 'admin:index' %}">
+                Django Admin ↗
+            </a>
+        </header>
+
+        <section class="welcome-section">
+            <div>
+                <p class="eyebrow">ADMINISTRATION</p>
+                <h2>Dashboard Overview</h2>
+                <p class="welcome-text">
+                    Monitor uploaded documents and review their current status.
+                </p>
+            </div>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card total-card">
+                <div class="stat-top">
+                    <span class="stat-label">Total Documents</span>
+                    <span class="stat-icon">▤</span>
+                </div>
+                <h2>{{ stats.total|default:0 }}</h2>
+                <p>All uploaded documents</p>
+            </article>
+
+            <article class="stat-card pending-card">
+                <div class="stat-top">
+                    <span class="stat-label">Pending Review</span>
+                    <span class="stat-icon">◷</span>
+                </div>
+                <h2>{{ stats.pending|default:0 }}</h2>
+                <p>Awaiting admin review</p>
+            </article>
+
+            <article class="stat-card approved-card">
+                <div class="stat-top">
+                    <span class="stat-label">Approved</span>
+                    <span class="stat-icon">✓</span>
+                </div>
+                <h2>{{ stats.approved|default:0 }}</h2>
+                <p>Approved documents</p>
+            </article>
+
+            <article class="stat-card rejected-card">
+                <div class="stat-top">
+                    <span class="stat-label">Rejected</span>
+                    <span class="stat-icon">×</span>
+                </div>
+                <h2>{{ stats.rejected|default:0 }}</h2>
+                <p>Rejected documents</p>
+            </article>
+        </section>
+
+        <section class="documents-section">
+            <div class="section-header">
+                <div>
+                    <h2>Uploaded Documents</h2>
+                    <p>Review document owners, status and upload dates.</p>
+                </div>
+
+                <span class="document-count">
+                    {{ documents|length }} documents
+                </span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DOCUMENT</th>
+                            <th>UPLOADED BY</th>
+                            <th>STATUS</th>
+                            <th>UPLOAD DATE</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for document in documents %}
+                        <tr>
+                            <td>
+                                <div class="document-name">
+                                    <span class="document-icon">PDF</span>
+                                    <strong>{{ document.title }}</strong>
+                                </div>
+                            </td>
+
+                            <td>{{ document.uploaded_by|default:"Unknown" }}</td>
+
+                            <td>
+                                <span class="status status-{{ document.status|lower }}">
+                                    <span class="status-dot"></span>
+                                    {{ document.get_status_display }}
+                                </span>
+                            </td>
+
+                            <td class="date-cell">
+                                {{ document.uploaded_at|date:"d M Y, h:i A" }}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="empty-state">
+                                <div class="empty-icon">▤</div>
+                                <strong>No documents uploaded yet</strong>
+                                <p>Uploaded documents will appear here.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="dashboard-footer">
+            <span>DocQuery AI</span>
+            <span>Document Management System</span>
+        </footer>
+
+    </main>
+</body>
+</html>

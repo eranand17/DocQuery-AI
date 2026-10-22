@@ -1,0 +1,183 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="DocQuery AI helps you explore documents and get AI-powered answers from their content.">
+
+    <title>DocQuery AI | Your Intelligent Document Assistant</title>
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="/" class="brand">
+            <span class="brand-icon">D</span>
+            <span>DocQuery <strong>AI</strong></span>
+        </a>
+
+        <nav class="nav-actions">
+            <a class="login-link" href="{% url 'login' %}">Login</a>
+            <a class="register-link" href="{% url 'register' %}">Get Started <span>→</span></a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+
+                <div class="ai-badge">
+                    <span class="badge-dot"></span>
+                    AI-POWERED DOCUMENT ASSISTANT
+                </div>
+
+                <h1>
+                    Your documents.<br>
+                    Your questions.<br>
+                    <span>Your answers.</span>
+                </h1>
+
+                <p class="description">
+                    Stop searching through pages. Upload your documents,
+                    ask questions in natural language, and discover relevant
+                    answers with the help of AI.
+                </p>
+
+                <div class="actions">
+                    <a class="primary" href="{% url 'register' %}">
+                        Get Started for Free <span>→</span>
+                    </a>
+
+                    <a class="secondary" href="{% url 'login' %}">
+                        Sign In
+                    </a>
+                </div>
+
+                <div class="trust-note">
+                    <span>✓</span>
+                    Document-based answers in one workspace
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="visual-glow"></div>
+
+                <div class="document-window">
+                    <div class="window-header">
+                        <div class="window-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span class="window-title">DocQuery Workspace</span>
+                        <span class="window-menu">•••</span>
+                    </div>
+
+                    <div class="document-content">
+                        <div class="document-heading">
+                            <div class="file-icon">PDF</div>
+                            <div>
+                                <strong>Research Document</strong>
+                                <p>Document ready for questions</p>
+                            </div>
+                            <span class="file-check">✓</span>
+                        </div>
+
+                        <div class="document-divider"></div>
+
+                        <p class="sample-label">YOUR QUESTION</p>
+
+                        <div class="question-bubble">
+                            What are the main findings of this document?
+                        </div>
+
+                        <div class="answer-heading">
+                            <span class="ai-icon">✦</span>
+                            <strong>AI Answer</strong>
+                        </div>
+
+                        <div class="answer-bubble">
+                            <p>
+                                Based on the document, here are the key
+                                points and findings relevant to your question.
+                            </p>
+                            <div class="skeleton skeleton-long"></div>
+                            <div class="skeleton skeleton-medium"></div>
+                            <div class="skeleton skeleton-short"></div>
+                        </div>
+
+                        <div class="source-tag">
+                            <span>▤</span> Document source
+                        </div>
+                    </div>
+                </div>
+
+                <div class="floating-card floating-top">
+                    <span class="floating-icon">✦</span>
+                    <div>
+                        <strong>AI-powered</strong>
+                        <p>Smart document search</p>
+                    </div>
+                </div>
+
+                <div class="floating-card floating-bottom">
+                    <span class="floating-check">✓</span>
+                    <div>
+                        <strong>Relevant answers</strong>
+                        <p>From your documents</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-heading">
+                <p class="section-label">BUILT FOR BETTER WORKFLOWS</p>
+                <h2>Make your documents work smarter.</h2>
+                <p>Everything you need to get more from your documents.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <div class="feature-icon purple">↑</div>
+                    <h3>Upload Documents</h3>
+                    <p>
+                        Bring your supported documents into one organized
+                        workspace.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon blue">⌕</div>
+                    <h3>Ask in Plain Language</h3>
+                    <p>
+                        Ask questions naturally instead of searching
+                        page by page.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon green">▤</div>
+                    <h3>Find Relevant Sources</h3>
+                    <p>
+                        Explore answers with document references when
+                        available.
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <a href="/" class="footer-brand">DocQuery <strong>AI</strong></a>
+        <p>Intelligent answers. Better document discovery.</p>
+        <span>© {% now "Y" %} DocQuery AI</span>
+    </footer>
+
+</body>
+</html>

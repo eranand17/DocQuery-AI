@@ -1,0 +1,84 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Chat History | DocQuery AI{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/chat_history.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="history-panel">
+
+    <header class="history-header">
+        <div>
+            <p class="history-eyebrow">YOUR WORKSPACE</p>
+            <h2>Chat History</h2>
+            <p class="section-description">
+                Continue a previous conversation or remove one you no longer need.
+            </p>
+        </div>
+
+        <a href="{% url 'chat' %}" class="new-chat-button">
+            <span>＋</span> New Chat
+        </a>
+    </header>
+
+    {% if chat_sessions %}
+        <section class="history-section">
+            <div class="history-section-heading">
+                <h3>Previous conversations</h3>
+                <span class="history-count">
+                    {{ chat_sessions|length }} chats
+                </span>
+            </div>
+
+            <div class="history-list">
+                {% for session in chat_sessions %}
+                    <article class="history-item">
+
+                        <a href="{% url 'chat' %}?session_id={{ session.id }}"
+                           class="history-details">
+
+                            <div class="history-icon">◷</div>
+
+                            <div class="history-text">
+                                <h3>{{ session.title|default:"Untitled conversation" }}</h3>
+                                <p>
+                                    Last updated
+                                    {{ session.updated_at|date:"d M Y, h:i A" }}
+                                </p>
+                            </div>
+
+                            <span class="history-arrow">→</span>
+                        </a>
+
+                        <form method="POST"
+                              action="{% url 'delete_chat' session.id %}"
+                              onsubmit="return confirm('Delete this conversation permanently?');">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button"
+                                    aria-label="Delete conversation">
+                                Delete
+                            </button>
+                        </form>
+
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+    {% else %}
+        <section class="empty-state">
+            <div class="empty-history-icon">◷</div>
+            <h3>No conversations yet</h3>
+            <p>Your previous conversations will appear here after you start chatting.</p>
+            <a href="{% url 'chat' %}" class="new-chat-button">
+                ＋ Start your first chat
+            </a>
+        </section>
+    {% endif %}
+
+</main>
+{% endblock %}

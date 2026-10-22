@@ -1,0 +1,17 @@
+
+<header class="top-navbar">
+    <button type="button" class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+
+    <div class="navbar-heading">
+        <h3>{{ page_title|default:"AI Workspace" }}</h3>
+        <p>Your intelligent document assistant</p>
+    </div>
+
+    <div class="user-profile">
+        <div class="user-avatar">{{ request.user.username|first|upper }}</div>
+        <div class="user-info">
+            <span class="user-greeting">Welcome back,</span>
+            <strong>{{ request.user.username }}</strong>
+        </div>
+    </div>
+</header>

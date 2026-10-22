@@ -1,0 +1,43 @@
+
+<aside class="sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-icon">D</div>
+        <h2>DocQuery <span>AI</span></h2>
+    </div>
+
+    <p class="sidebar-label">WORKSPACE</p>
+
+    <nav class="sidebar-nav">
+        <a href="{% url 'chat' %}" class="sidebar-link">
+            <span>＋</span> New Chat
+        </a>
+
+        <a href="{% url 'chat_history' %}" class="sidebar-link">
+            <span>◷</span> Chat History
+        </a>
+
+        <p class="sidebar-label">DOCUMENTS</p>
+
+        <a href="{% url 'my_documents' %}" class="sidebar-link">
+            <span>▤</span> My Documents
+        </a>
+
+        <a href="{% url 'upload_document' %}" class="sidebar-link">
+            <span>↑</span> Upload Document
+        </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <div class="sidebar-status">
+            <span class="status-dot"></span>
+            AI Workspace
+        </div>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">
+                <span>↪</span> Logout
+            </button>
+        </form>
+    </div>
+</aside>
